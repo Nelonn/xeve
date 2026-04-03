@@ -37,7 +37,7 @@ extern "C"
 {
 #endif
 
-#include <xeve_exports.h>
+#define XEVE_EXPORT
 
 #define XEVE_MAX_THREADS                (8)
 #define XEVE_MAX_NUM_TILES_ROW          (22)

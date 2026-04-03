@@ -1,5 +1,5 @@
 include_directories (${PROJECT_SOURCE_DIR}/app)
-include_directories (${CMAKE_BINARY_DIR})
+include_directories (${CMAKE_CURRENT_BINARY_DIR})
 set( EXE_NAME xeve_app )
 set( EXE_NAME_BASE xeveb_app)
 
@@ -17,7 +17,7 @@ if(("${SET_PROF}" STREQUAL "MAIN"))
     # target_link_libraries (${EXE_NAME} xeve_dynamic)
 
     set_property(TARGET ${EXE_NAME} PROPERTY FOLDER "app")
-    set_target_properties(${EXE_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+    set_target_properties(${EXE_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/bin)
 
     if( MSVC )
         target_compile_definitions( ${EXE_NAME} PUBLIC _CRT_SECURE_NO_WARNINGS ANY )
@@ -45,7 +45,7 @@ if(("${SET_PROF}" STREQUAL "BASE"))
     # target_link_libraries (${EXE_NAME_BASE} xeveb_dynamic)
 
     set_property(TARGET ${EXE_NAME_BASE} PROPERTY FOLDER "app")
-    set_target_properties(${EXE_NAME_BASE} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+    set_target_properties(${EXE_NAME_BASE} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/bin)
 
     if( MSVC )
         target_compile_definitions( ${EXE_NAME_BASE} PUBLIC _CRT_SECURE_NO_WARNINGS ANY )
