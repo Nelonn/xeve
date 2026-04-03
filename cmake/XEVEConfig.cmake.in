@@ -1,0 +1,10 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+
+# Provide the targets
+if(NOT TARGET xeve)
+    include("${CMAKE_CURRENT_LIST_DIR}/XEVETargets.cmake")
+endif()
+
+check_required_components(XEVE)

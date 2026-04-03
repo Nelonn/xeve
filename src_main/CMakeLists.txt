@@ -114,43 +114,33 @@ set(XEVE_PRIVATE_HEADERS "${LIB_BASE_INC}" "${LIB_SSE_INC}" "${LIB_AVX_INC}")
 
 if (XEVE_INSTALL)
 
-include(GNUInstallDirs)
+    include(GNUInstallDirs)
 
-    # Install static library and public headers
-    #
-    # Static library (libxeveb.a or xeveb.lib) will be installed to <prefix>/lib/xeveb
-    # Public headers will be installed to <prefix>/include/xeveb
-    #
+    # Install library and public headers
     install(TARGETS ${LIB_NAME}
-            ARCHIVE COMPONENT Development DESTINATION ${CMAKE_INSTALL_LIBDIR}/${LIB_NAME}
-            PUBLIC_HEADER COMPONENT Development DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${LIB_NAME}
-    )
-
-    # Install shared library
-    #
-    # On non-DLL platforms shared library (libxeveb.so) will be installed to <prefix>/lib/xeveb.
-    # On DLL platforms the shared DLL (xeveb.dll) will be installed to <prefix>/bin and its import library will be installed to <prefix>/lib/xeveb/import
-    #
-    install(TARGETS ${LIB_NAME}_dynamic
-            RUNTIME COMPONENT Libraries DESTINATION ${CMAKE_INSTALL_BINDIR}
-            LIBRARY
-                 COMPONENT Libraries DESTINATION ${CMAKE_INSTALL_LIBDIR}
-                 NAMELINK_COMPONENT Development DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            EXPORT XEVETargets
             ARCHIVE COMPONENT Development DESTINATION ${CMAKE_INSTALL_LIBDIR}
-            PUBLIC_HEADER COMPONENT Development DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${LIB_NAME}
-    )
-
-    install( FILES
-        ${PROJECT_BINARY_DIR}/xeve_exports.h COMPONENT Development DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${LIB_NAME}
+            LIBRARY COMPONENT Libraries DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            RUNTIME COMPONENT Libraries DESTINATION ${CMAKE_INSTALL_BINDIR}
+            PUBLIC_HEADER COMPONENT Development DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+            INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
     )
 
     configure_file(
-        "${CMAKE_CURRENT_SOURCE_DIR}/pkgconfig/${LIB_NAME}.pc.in"
-        "${CMAKE_CURRENT_BINARY_DIR}/${LIB_NAME}.pc"
-        IMMEDIATE @ONLY)
+            "${CMAKE_CURRENT_SOURCE_DIR}/pkgconfig/${LIB_NAME}.pc.in"
+            "${CMAKE_CURRENT_BINARY_DIR}/${LIB_NAME}.pc"
+            IMMEDIATE @ONLY)
 
     install( FILES
-        "${CMAKE_CURRENT_BINARY_DIR}/${LIB_NAME}.pc" COMPONENT Development DESTINATION  ${CMAKE_INSTALL_LIBDIR}/pkgconfig
+            "${CMAKE_CURRENT_BINARY_DIR}/${LIB_NAME}.pc" COMPONENT Development DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
+    )
+
+    # Install the export target
+    install(EXPORT XEVETargets
+            FILE XEVETargets.cmake
+            NAMESPACE XEVE::
+            DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/XEVE
+            COMPONENT Development
     )
 
 endif ()
